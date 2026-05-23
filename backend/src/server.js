@@ -9,6 +9,7 @@ dotenv.config()
 // Import routes
 const authRoutes = require('./routes/auth')
 const resumeRoutes = require('./routes/resume')
+const interviewRoutes = require('./routes/interview')
 
 const app = express()
 
@@ -42,6 +43,7 @@ app.get('/api/test-resume', (req, res) => {
 // Routes
 app.use('/api/auth', authRoutes)
 app.use('/api/resume', resumeRoutes)
+app.use('/api/interview', interviewRoutes)
 
 // Health check route
 app.get('/api/health', (req, res) => {

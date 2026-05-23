@@ -1,0 +1,94 @@
+{
+  "frontend": {
+    "beginner": [
+      "What is the difference between let, const, and var in JavaScript?",
+      "Explain the box model in CSS.",
+      "What is responsive design and how do you achieve it?",
+      "What is the purpose of React keys?",
+      "Explain the difference between props and state in React."
+    ],
+    "intermediate": [
+      "Explain closures in JavaScript with an example.",
+      "What is the virtual DOM and how does it work?",
+      "Explain React lifecycle methods or hooks.",
+      "What is state management and why do we need it?",
+      "Explain event delegation in JavaScript."
+    ],
+    "advanced": [
+      "Explain the event loop in JavaScript.",
+      "How would you optimize a React application's performance?",
+      "Explain code splitting and lazy loading.",
+      "What are Web Workers and when would you use them?",
+      "Explain the concept of memoization and when to use it."
+    ]
+  },
+  "backend": {
+    "beginner": [
+      "What is the difference between SQL and NoSQL databases?",
+      "Explain REST API and its principles.",
+      "What is authentication vs authorization?",
+      "What is the purpose of environment variables?",
+      "Explain HTTP methods (GET, POST, PUT, DELETE)."
+    ],
+    "intermediate": [
+      "Explain database indexing and its benefits.",
+      "What is JWT and how does it work?",
+      "Explain the difference between SQL injection and XSS.",
+      "What are microservices vs monolithic architecture?",
+      "Explain caching strategies."
+    ],
+    "advanced": [
+      "Explain database sharding and when to use it.",
+      "What are message queues and when would you use them?",
+      "Explain the CAP theorem.",
+      "How would you design a rate limiting system?",
+      "Explain eventual consistency vs strong consistency."
+    ]
+  },
+  "fullstack": {
+    "beginner": [
+      "What is the MERN stack?",
+      "Explain the difference between client-side and server-side rendering.",
+      "What is an API and how do you use it?",
+      "Explain the purpose of package.json.",
+      "What is version control and why is it important?"
+    ],
+    "intermediate": [
+      "Explain the authentication flow in a full-stack app.",
+      "What are webhooks and how do they work?",
+      "Explain CORS and how to handle it.",
+      "What are environment variables and why are they important?",
+      "Explain the difference between cookies, localStorage, and sessionStorage."
+    ],
+    "advanced": [
+      "Explain how you would implement real-time features like chat.",
+      "What are the security considerations for a full-stack app?",
+      "Explain how you would scale a full-stack application.",
+      "What is the difference between horizontal and vertical scaling?",
+      "Explain the challenges of server-side rendering vs client-side rendering."
+    ]
+  },
+  "hr": {
+    "beginner": [
+      "Tell me about yourself.",
+      "What are your strengths and weaknesses?",
+      "Why do you want to work at our company?",
+      "Where do you see yourself in 5 years?",
+      "Why should we hire you?"
+    ],
+    "intermediate": [
+      "Describe a time you faced a challenge at work and how you overcame it.",
+      "How do you handle conflicts with team members?",
+      "Tell me about a time you showed leadership.",
+      "How do you handle pressure and tight deadlines?",
+      "Describe a situation where you failed and what you learned."
+    ],
+    "advanced": [
+      "Tell me about a time you had to make a difficult decision.",
+      "How do you handle criticism from managers?",
+      "Describe a time you went above and beyond for a project.",
+      "How do you stay motivated during repetitive tasks?",
+      "Tell me about a time you had to learn a new skill quickly."
+    ]
+  }
+}

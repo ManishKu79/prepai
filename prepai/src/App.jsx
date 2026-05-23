@@ -7,6 +7,7 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import ResumeAnalyzer from './pages/ResumeAnalyzer'
 import ProtectedRoute from './components/auth/ProtectedRoute'
+import MockInterview from './pages/MockInterview'
 
 function App() {
   return (
@@ -27,10 +28,11 @@ function App() {
               <DashboardLayout />
             </ProtectedRoute>
           }
+          
         >
           <Route index element={<Dashboard />} />
           <Route path="resume-analyzer" element={<ResumeAnalyzer />} />
-          <Route path="mock-interview" element={<div className="text-white p-8 text-center">🎤 Mock Interview - Coming Soon</div>} />
+          <Route path="mock-interview" element={<MockInterview />} />
           <Route path="coding-practice" element={<div className="text-white p-8 text-center">💻 Coding Practice - Coming Soon</div>} />
           <Route path="analytics" element={<div className="text-white p-8 text-center">📊 Analytics - Coming Soon</div>} />
           <Route path="settings" element={<div className="text-white p-8 text-center">⚙️ Settings - Coming Soon</div>} />
