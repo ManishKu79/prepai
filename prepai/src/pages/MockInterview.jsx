@@ -9,35 +9,32 @@ const MockInterview = () => {
   const [interviewId, setInterviewId] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
 
-  const handleStartInterview = async (setupData) => {
-    setIsLoading(true)
-    
-    try {
-      const token = localStorage.getItem('token')
-      const response = await fetch('http://localhost:5000/api/interview/start', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify(setupData)
-      })
+const handleStartInterview = async (setupData) => {
+  setIsLoading(true)
+  
+  try {
+    const token = localStorage.getItem('token')
+    const response = await fetch('http://localhost:5000/api/interview/start', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(setupData) // Includes questionCount
+    })
 
-      const data = await response.json()
-      
-      if (data.success) {
-        setInterviewId(data.interviewId)
-        setInterviewStarted(true)
-      } else {
-        alert(data.message || 'Failed to start interview')
-      }
-    } catch (error) {
-      console.error('Error starting interview:', error)
-      alert('Network error. Please try again.')
-    } finally {
-      setIsLoading(false)
+    const data = await response.json()
+    
+    if (data.success) {
+      setInterviewId(data.interviewId)
+      setInterviewStarted(true)
     }
+  } catch (error) {
+    console.error('Error starting interview:', error)
+  } finally {
+    setIsLoading(false)
   }
+}
 
   const handleInterviewComplete = (feedback) => {
     console.log('Interview completed with feedback:', feedback)

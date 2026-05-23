@@ -1,11 +1,12 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Mic, Target, User } from 'lucide-react'
+import { Mic, Target, User, ListChecks } from 'lucide-react'
 
 const InterviewSetup = ({ onStart }) => {
   const [role, setRole] = useState('frontend')
   const [difficulty, setDifficulty] = useState('intermediate')
   const [type, setType] = useState('technical')
+  const [questionCount, setQuestionCount] = useState(5)
 
   const roles = [
     { id: 'frontend', name: 'Frontend Developer', icon: '🎨' },
@@ -20,10 +21,16 @@ const InterviewSetup = ({ onStart }) => {
     { id: 'advanced', name: 'Advanced', color: 'text-red-500', bg: 'bg-red-500/10' },
   ]
 
+  const questionOptions = [
+    { value: 3, label: 'Quick (3 questions)', time: '~5 min', icon: '⚡' },
+    { value: 5, label: 'Standard (5 questions)', time: '~10 min', icon: '⭐' },
+    { value: 10, label: 'Complete (10 questions)', time: '~20 min', icon: '🏆' },
+  ]
+
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log('Starting interview with:', { role, difficulty, type })
-    onStart({ role, difficulty, type })
+    console.log('Starting interview with:', { role, difficulty, type, questionCount })
+    onStart({ role, difficulty, type, questionCount })
   }
 
   return (
@@ -72,11 +79,36 @@ const InterviewSetup = ({ onStart }) => {
                 onClick={() => setDifficulty(d.id)}
                 className={`flex-1 p-3 rounded-lg text-center transition-all ${
                   difficulty === d.id
-                    ? `${d.bg} border border-current`
+                    ? `${d.bg} border border-current ${d.color}`
                     : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
-                } ${d.color}`}
+                }`}
               >
                 {d.name}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Question Count Selection - NEW */}
+        <div>
+          <label className="block text-sm font-medium text-gray-300 mb-3">
+            Number of Questions
+          </label>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            {questionOptions.map((option) => (
+              <button
+                key={option.value}
+                type="button"
+                onClick={() => setQuestionCount(option.value)}
+                className={`p-3 rounded-lg text-center transition-all ${
+                  questionCount === option.value
+                    ? 'bg-purple-600 text-white border border-purple-500'
+                    : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
+                }`}
+              >
+                <div className="text-xl mb-1">{option.icon}</div>
+                <div className="text-sm font-medium">{option.label}</div>
+                <div className="text-xs mt-1 opacity-70">{option.time}</div>
               </button>
             ))}
           </div>
@@ -123,9 +155,17 @@ const InterviewSetup = ({ onStart }) => {
           className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
         >
           <Mic className="h-5 w-5" />
-          Start Mock Interview
+          Start Mock Interview ({questionCount} questions)
         </button>
       </form>
+
+      {/* Info Box */}
+      <div className="mt-4 p-3 bg-gray-800/30 rounded-lg">
+        <div className="flex items-center gap-2 text-xs text-gray-400">
+          <ListChecks className="h-3 w-3" />
+          <span>Each question has a 60-second time limit. Take your time to think!</span>
+        </div>
+      </div>
     </motion.div>
   )
 }

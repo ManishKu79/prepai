@@ -5,29 +5,39 @@ const userSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
+    trim: true,
   },
   email: {
     type: String,
     required: true,
     unique: true,
+    lowercase: true,
+    trim: true,
   },
   password: {
     type: String,
     required: true,
   },
-}, {
-  timestamps: true
+  avatar: {
+    type: String,
+    default: null,
+  },
+  skills: [String],
+  preferences: {
+    emailNotifications: { type: Boolean, default: true },
+    darkMode: { type: Boolean, default: true },
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now,
+  },
 })
 
-// Hash password before saving
-userSchema.pre('save', async function(next) {
-  if (!this.isModified('password')) {
-    return next()
-  }
-  const salt = await bcrypt.genSalt(10)
-  this.password = await bcrypt.hash(this.password, salt)
-  next()
-})
+// NO PRE-SAVE HOOKS HERE - All password hashing happens in controllers
 
 // Compare password method
 userSchema.methods.comparePassword = async function(password) {

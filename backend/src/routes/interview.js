@@ -4,8 +4,7 @@ const {
   startInterview, 
   submitAnswer, 
   getInterviewStatus,
-  getInterviewHistory,
-  getSessionDetails
+  getInterviewHistory
 } = require('../controllers/interviewController')
 const { protect } = require('../middleware/auth')
 
@@ -14,6 +13,5 @@ router.post('/start', protect, startInterview)
 router.post('/submit', protect, submitAnswer)
 router.get('/status/:interviewId', protect, getInterviewStatus)
 router.get('/history', protect, getInterviewHistory)
-router.get('/session/:sessionId', protect, getSessionDetails)
 
 module.exports = router

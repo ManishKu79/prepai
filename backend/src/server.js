@@ -11,8 +11,9 @@ dotenv.config()
 const authRoutes = require('./routes/auth')
 const resumeRoutes = require('./routes/resume')
 const interviewRoutes = require('./routes/interview')
-const feedbackRoutes = require('./routes/feedback')
 const codingRoutes = require('./routes/coding')
+const feedbackRoutes = require('./routes/feedback')
+const userRoutes = require('./routes/user')
 
 const app = express()
 
@@ -29,103 +30,67 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
 
-// Test routes (no auth required)
+// ============ SIMPLE TEST ROUTES (NO MIDDLEWARE ISSUES) ============
 app.get('/api/test', (req, res) => {
-  res.json({ 
-    message: 'API is working!',
-    endpoints: {
-      auth: '/api/auth',
-      resume: '/api/resume',
-      interview: '/api/interview'
-    }
-  })
+  res.json({ message: 'API is working!', timestamp: new Date().toISOString() })
 })
 
 app.get('/api/health', (req, res) => {
-  res.status(200).json({ 
-    message: 'Server is running', 
-    status: 'OK',
-    timestamp: new Date().toISOString()
-  })
+  res.json({ message: 'Server is running', status: 'OK', timestamp: new Date().toISOString() })
 })
 
-// Test OpenAI endpoint (remove in production)
-app.post('/api/test-openai', async (req, res) => {
-  try {
-    const { generateQuestion } = require('./services/openaiService')
-    const question = await generateQuestion('frontend', 'intermediate')
-    res.json({ success: true, question })
-  } catch (error) {
-    res.status(500).json({ error: error.message })
-  }
-})
-
-// Routes
+// ============ REGISTER ROUTES ============
 app.use('/api/auth', authRoutes)
 app.use('/api/resume', resumeRoutes)
 app.use('/api/interview', interviewRoutes)
-app.use('/api/feedback', feedbackRoutes)
 app.use('/api/coding', codingRoutes)
+app.use('/api/feedback', feedbackRoutes)
+app.use('/api/user', userRoutes)
 
-// 404 handler for undefined routes
+// ============ 404 HANDLER ============
 app.use((req, res) => {
-  res.status(404).json({ 
-    message: `Cannot ${req.method} ${req.originalUrl}`,
-    availableEndpoints: [
-      'GET /api/health',
-      'GET /api/test',
-      'POST /api/test-openai',
-      'POST /api/auth/register',
-      'POST /api/auth/login',
-      'GET /api/auth/profile',
-      'POST /api/auth/logout',
-      'POST /api/resume/analyze',
-      'POST /api/interview/start',
-      'POST /api/interview/submit',
-      'GET /api/interview/status/:interviewId'
-    ]
+  res.status(404).json({
+    success: false,
+    message: `Cannot ${req.method} ${req.originalUrl} - Route not found`
   })
 })
 
-// Error handling middleware
+// ============ ERROR HANDLER - FIXED VERSION ============
+// This MUST be the last middleware
 app.use((err, req, res, next) => {
-  console.error('Error:', err.message)
+  console.error('Error caught in handler:', err.message)
+  console.error('Error stack:', err.stack)
+  
+  // Don't call next() here - just send response
   res.status(err.status || 500).json({
+    success: false,
     message: err.message || 'Internal server error',
-    stack: process.env.NODE_ENV === 'development' ? err.stack : undefined
+    ...(process.env.NODE_ENV === 'development' && { stack: err.stack })
   })
 })
 
-// MongoDB Connection
+// ============ DATABASE CONNECTION ============
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/prepai'
 
 mongoose.connect(MONGODB_URI)
   .then(() => console.log('✅ Connected to MongoDB'))
   .catch(err => {
     console.error('❌ MongoDB connection error:', err.message)
-    console.log('⚠️ Running without database - using in-memory storage')
+    console.log('⚠️ Continuing without database...')
   })
 
-// Start server
+// ============ START SERVER ============
 const PORT = process.env.PORT || 5000
 
 const server = app.listen(PORT, () => {
   console.log(`\n🚀 PrepAI Backend Server`)
   console.log(`📍 Running on: http://localhost:${PORT}`)
   console.log(`📡 API ready for frontend at http://localhost:3000`)
-  console.log(`🤖 OpenAI Integration: ${process.env.OPENAI_API_KEY ? '✅ Enabled' : '❌ Disabled (no API key)'}`)
   console.log(`\n📋 Available endpoints:`)
-  console.log(`   GET    /api/health              - Health check`)
-  console.log(`   GET    /api/test                - Test endpoint`)
-  console.log(`   POST   /api/test-openai         - Test OpenAI (dev only)`)
-  console.log(`   POST   /api/auth/register       - Register new user`)
-  console.log(`   POST   /api/auth/login          - Login user`)
-  console.log(`   GET    /api/auth/profile        - Get user profile`)
-  console.log(`   POST   /api/auth/logout         - Logout user`)
-  console.log(`   POST   /api/resume/analyze      - Analyze resume`)
-  console.log(`   POST   /api/interview/start     - Start mock interview`)
-  console.log(`   POST   /api/interview/submit    - Submit answer`)
-  console.log(`   GET    /api/interview/status/:id - Get interview status\n`)
+  console.log(`   POST   /api/auth/register     - Register user`)
+  console.log(`   POST   /api/auth/login        - Login user`)
+  console.log(`   GET    /api/auth/profile      - Get profile`)
+  console.log(`   GET    /api/health            - Health check\n`)
 })
 
 // Graceful shutdown

@@ -10,6 +10,7 @@ import ProtectedRoute from "./components/auth/ProtectedRoute";
 import MockInterview from "./pages/MockInterview";
 import Analytics from "./pages/Analytics";
 import CodingPractice from './pages/CodingPractice'
+import Settings from './pages/Settings'
 
 function App() {
   return (
@@ -39,9 +40,7 @@ function App() {
           <Route
             path="settings"
             element={
-              <div className="text-white p-8 text-center">
-                ⚙️ Settings - Coming Soon
-              </div>
+              <Settings />
             }
           />
         </Route>

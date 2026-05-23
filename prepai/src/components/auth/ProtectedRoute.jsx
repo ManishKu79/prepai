@@ -5,7 +5,8 @@ const ProtectedRoute = ({ children }) => {
   const { isAuthenticated } = useAuthStore()
   
   if (!isAuthenticated) {
-    return <Navigate to="/login" replace />
+    // Redirect to home page (landing page) instead of login
+    return <Navigate to="/" replace />
   }
   
   return children

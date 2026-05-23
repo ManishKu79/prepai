@@ -15,6 +15,7 @@ const interviewSessionSchema = new mongoose.Schema({
   role: { type: String, required: true },
   difficulty: { type: String, required: true },
   type: { type: String, required: true },
+  questionCount: { type: Number, default: 5 }, // NEW FIELD
   startTime: { type: Date, default: Date.now },
   endTime: { type: Date },
   answers: [answerSchema],

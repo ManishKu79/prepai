@@ -1,10 +1,17 @@
 import { useState, useEffect } from 'react'
 import { Clock } from 'lucide-react'
 
-const Timer = ({ duration = 60, onTimeUp }) => {
+const Timer = ({ duration = 60, onTimeUp, reset, isActive = true }) => {
   const [timeLeft, setTimeLeft] = useState(duration)
 
+  // Reset timer when reset prop changes or duration changes
   useEffect(() => {
+    setTimeLeft(duration)
+  }, [duration, reset])
+
+  useEffect(() => {
+    if (!isActive) return
+    
     if (timeLeft <= 0) {
       onTimeUp?.()
       return
@@ -15,7 +22,7 @@ const Timer = ({ duration = 60, onTimeUp }) => {
     }, 1000)
 
     return () => clearInterval(timer)
-  }, [timeLeft, onTimeUp])
+  }, [timeLeft, onTimeUp, isActive])
 
   const minutes = Math.floor(timeLeft / 60)
   const seconds = timeLeft % 60

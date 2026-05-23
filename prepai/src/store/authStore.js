@@ -17,8 +17,11 @@ const useAuthStore = create(
       },
       
       logout: () => {
+        // Clear localStorage
         localStorage.removeItem('token')
         localStorage.removeItem('user')
+        localStorage.removeItem('prepai-auth') // Clear persisted store
+        
         set({ 
           user: null, 
           token: null, 

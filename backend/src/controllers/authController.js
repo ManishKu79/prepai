@@ -1,5 +1,6 @@
 const User = require('../models/User')
 const jwt = require('jsonwebtoken')
+const bcrypt = require('bcryptjs')
 
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -7,41 +8,44 @@ const generateToken = (id) => {
   })
 }
 
-// @desc    Register a new user
-// @route   POST /api/auth/register
-// @access  Public
+// Register user - manual password hashing
 const registerUser = async (req, res) => {
   try {
-    console.log('Registration request received:', req.body)
+    console.log('📝 Registration request received for:', req.body.email)
     
     const { name, email, password } = req.body
 
-    // Validate required fields
     if (!name || !email || !password) {
       return res.status(400).json({ 
+        success: false,
         message: 'Please provide name, email and password' 
       })
     }
 
-    // Check if user already exists
     const userExists = await User.findOne({ email })
     if (userExists) {
       return res.status(400).json({ 
+        success: false,
         message: 'User already exists with this email' 
       })
     }
 
-    // Create user
-    const user = await User.create({
+    // Hash password manually
+    const salt = await bcrypt.genSalt(10)
+    const hashedPassword = await bcrypt.hash(password, salt)
+
+    const user = new User({
       name,
       email,
-      password,
+      password: hashedPassword,
     })
 
-    // Generate token
+    await user.save()
+
     const token = generateToken(user._id)
 
-    // Return user data (without password)
+    console.log('✅ User registered successfully:', email)
+
     res.status(201).json({
       success: true,
       token,
@@ -52,48 +56,48 @@ const registerUser = async (req, res) => {
       },
     })
   } catch (error) {
-    console.error('Registration error:', error)
+    console.error('❌ Registration error:', error)
     res.status(500).json({ 
-      message: 'Server error', 
+      success: false,
+      message: 'Server error during registration', 
       error: error.message 
     })
   }
 }
 
-// @desc    Login user
-// @route   POST /api/auth/login
-// @access  Public
+// Login user
 const loginUser = async (req, res) => {
   try {
-    console.log('Login request received:', req.body.email)
+    console.log('🔐 Login request received for:', req.body.email)
     
     const { email, password } = req.body
 
-    // Validate required fields
     if (!email || !password) {
       return res.status(400).json({ 
+        success: false,
         message: 'Please provide email and password' 
       })
     }
 
-    // Check for user
     const user = await User.findOne({ email })
     if (!user) {
       return res.status(401).json({ 
+        success: false,
         message: 'Invalid email or password' 
       })
     }
 
-    // Check password
-    const isPasswordMatch = await user.comparePassword(password)
+    const isPasswordMatch = await bcrypt.compare(password, user.password)
     if (!isPasswordMatch) {
       return res.status(401).json({ 
+        success: false,
         message: 'Invalid email or password' 
       })
     }
 
-    // Generate token
     const token = generateToken(user._id)
+
+    console.log('✅ User logged in successfully:', email)
 
     res.status(200).json({
       success: true,
@@ -105,37 +109,26 @@ const loginUser = async (req, res) => {
       },
     })
   } catch (error) {
-    console.error('Login error:', error)
+    console.error('❌ Login error:', error)
     res.status(500).json({ 
-      message: 'Server error', 
+      success: false,
+      message: 'Server error during login', 
       error: error.message 
     })
   }
 }
 
-// @desc    Get user profile
-// @route   GET /api/auth/profile
-// @access  Private
 const getUserProfile = async (req, res) => {
   try {
     const user = await User.findById(req.user._id).select('-password')
-    res.status(200).json({
-      success: true,
-      user,
-    })
+    res.json({ success: true, user })
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message })
   }
 }
 
-// @desc    Logout user
-// @route   POST /api/auth/logout
-// @access  Private
 const logoutUser = async (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: 'Logged out successfully',
-  })
+  res.json({ success: true, message: 'Logged out successfully' })
 }
 
 module.exports = {
