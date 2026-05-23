@@ -2,6 +2,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
 const dotenv = require('dotenv')
+const cookieParser = require('cookie-parser')
 
 // Load environment variables
 dotenv.config()
@@ -10,6 +11,8 @@ dotenv.config()
 const authRoutes = require('./routes/auth')
 const resumeRoutes = require('./routes/resume')
 const interviewRoutes = require('./routes/interview')
+const feedbackRoutes = require('./routes/feedback')
+const codingRoutes = require('./routes/coding')
 
 const app = express()
 
@@ -24,28 +27,20 @@ app.use(cors({
 // Middleware
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+app.use(cookieParser())
 
-// Simple test routes (no auth required)
+// Test routes (no auth required)
 app.get('/api/test', (req, res) => {
   res.json({ 
     message: 'API is working!',
     endpoints: {
       auth: '/api/auth',
-      resume: '/api/resume'
+      resume: '/api/resume',
+      interview: '/api/interview'
     }
   })
 })
 
-app.get('/api/test-resume', (req, res) => {
-  res.json({ message: 'Resume API endpoint is accessible' })
-})
-
-// Routes
-app.use('/api/auth', authRoutes)
-app.use('/api/resume', resumeRoutes)
-app.use('/api/interview', interviewRoutes)
-
-// Health check route
 app.get('/api/health', (req, res) => {
   res.status(200).json({ 
     message: 'Server is running', 
@@ -54,6 +49,24 @@ app.get('/api/health', (req, res) => {
   })
 })
 
+// Test OpenAI endpoint (remove in production)
+app.post('/api/test-openai', async (req, res) => {
+  try {
+    const { generateQuestion } = require('./services/openaiService')
+    const question = await generateQuestion('frontend', 'intermediate')
+    res.json({ success: true, question })
+  } catch (error) {
+    res.status(500).json({ error: error.message })
+  }
+})
+
+// Routes
+app.use('/api/auth', authRoutes)
+app.use('/api/resume', resumeRoutes)
+app.use('/api/interview', interviewRoutes)
+app.use('/api/feedback', feedbackRoutes)
+app.use('/api/coding', codingRoutes)
+
 // 404 handler for undefined routes
 app.use((req, res) => {
   res.status(404).json({ 
@@ -61,13 +74,15 @@ app.use((req, res) => {
     availableEndpoints: [
       'GET /api/health',
       'GET /api/test',
-      'GET /api/test-resume',
+      'POST /api/test-openai',
       'POST /api/auth/register',
       'POST /api/auth/login',
       'GET /api/auth/profile',
       'POST /api/auth/logout',
-      'GET /api/resume/test',
-      'POST /api/resume/analyze'
+      'POST /api/resume/analyze',
+      'POST /api/interview/start',
+      'POST /api/interview/submit',
+      'GET /api/interview/status/:interviewId'
     ]
   })
 })
@@ -98,16 +113,19 @@ const server = app.listen(PORT, () => {
   console.log(`\n🚀 PrepAI Backend Server`)
   console.log(`📍 Running on: http://localhost:${PORT}`)
   console.log(`📡 API ready for frontend at http://localhost:3000`)
+  console.log(`🤖 OpenAI Integration: ${process.env.OPENAI_API_KEY ? '✅ Enabled' : '❌ Disabled (no API key)'}`)
   console.log(`\n📋 Available endpoints:`)
-  console.log(`   GET    /api/health            - Health check`)
-  console.log(`   GET    /api/test              - Test endpoint`)
-  console.log(`   GET    /api/test-resume       - Test resume endpoint`)
-  console.log(`   POST   /api/auth/register     - Register new user`)
-  console.log(`   POST   /api/auth/login        - Login user`)
-  console.log(`   GET    /api/auth/profile      - Get user profile (Protected)`)
-  console.log(`   POST   /api/auth/logout       - Logout user (Protected)`)
-  console.log(`   GET    /api/resume/test       - Test resume route (Protected)`)
-  console.log(`   POST   /api/resume/analyze    - Analyze resume (Protected)\n`)
+  console.log(`   GET    /api/health              - Health check`)
+  console.log(`   GET    /api/test                - Test endpoint`)
+  console.log(`   POST   /api/test-openai         - Test OpenAI (dev only)`)
+  console.log(`   POST   /api/auth/register       - Register new user`)
+  console.log(`   POST   /api/auth/login          - Login user`)
+  console.log(`   GET    /api/auth/profile        - Get user profile`)
+  console.log(`   POST   /api/auth/logout         - Logout user`)
+  console.log(`   POST   /api/resume/analyze      - Analyze resume`)
+  console.log(`   POST   /api/interview/start     - Start mock interview`)
+  console.log(`   POST   /api/interview/submit    - Submit answer`)
+  console.log(`   GET    /api/interview/status/:id - Get interview status\n`)
 })
 
 // Graceful shutdown

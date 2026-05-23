@@ -12,6 +12,19 @@ router.get('/test', protect, (req, res) => {
   })
 })
 
+router.get('/analytics', protect, async (req, res) => {
+  try {
+    // Return resume analytics if available
+    res.json({
+      success: true,
+      hasResume: false,
+      message: 'No resume uploaded yet'
+    })
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' })
+  }
+})
+
 // Protected route - requires authentication
 router.post('/analyze', protect, upload.single('resume'), analyzeResume)
 

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Briefcase, Target, Mic, User } from 'lucide-react'
+import { Mic, Target, User } from 'lucide-react'
 
 const InterviewSetup = ({ onStart }) => {
   const [role, setRole] = useState('frontend')
@@ -22,6 +22,7 @@ const InterviewSetup = ({ onStart }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    console.log('Starting interview with:', { role, difficulty, type })
     onStart({ role, difficulty, type })
   }
 

@@ -8,6 +8,7 @@ const RecentInterviews = () => {
   const getTypeColor = (type) => {
     switch(type) {
       case 'interview': return 'text-blue-500 bg-blue-500/10'
+      case 'technical': return 'text-blue-500 bg-blue-500/10'
       case 'coding': return 'text-green-500 bg-green-500/10'
       case 'resume': return 'text-purple-500 bg-purple-500/10'
       default: return 'text-gray-500 bg-gray-500/10'
@@ -17,10 +18,20 @@ const RecentInterviews = () => {
   const getTypeIcon = (type) => {
     switch(type) {
       case 'interview': return '🎤'
-      case 'coding': return '💻'
+      case 'technical': return '💻'
+      case 'coding': return '⌨️'
       case 'resume': return '📄'
       default: return '📊'
     }
+  }
+  
+  if (recentActivity.length === 0) {
+    return (
+      <div className="bg-gray-900 rounded-xl p-6 border border-gray-800 text-center">
+        <p className="text-gray-400">No activity yet</p>
+        <p className="text-gray-500 text-sm mt-1">Complete an interview or coding challenge to see activity here</p>
+      </div>
+    )
   }
   
   return (
@@ -33,7 +44,7 @@ const RecentInterviews = () => {
       </div>
       
       <div className="space-y-3">
-        {recentActivity.map((activity, index) => (
+        {recentActivity.slice(0, 5).map((activity, index) => (
           <motion.div
             key={activity.id}
             initial={{ opacity: 0, x: -20 }}
@@ -53,7 +64,9 @@ const RecentInterviews = () => {
                     {new Date(activity.date).toLocaleDateString()}
                   </span>
                   <Award className="h-3 w-3 text-gray-500 ml-2" />
-                  <span className="text-xs text-green-500">{activity.score}%</span>
+                  <span className={`text-xs ${activity.score >= 70 ? 'text-green-500' : 'text-yellow-500'}`}>
+                    {activity.score}%
+                  </span>
                 </div>
               </div>
             </div>
