@@ -26,18 +26,23 @@ const userSchema = new mongoose.Schema({
   preferences: {
     emailNotifications: { type: Boolean, default: true },
     darkMode: { type: Boolean, default: true },
+    practiceReminders: { type: Boolean, default: true },
   },
-  createdAt: {
-    type: Date,
-    default: Date.now,
+  resetPasswordToken: { type: String },
+  resetPasswordExpire: { type: Date },
+  lastActive: { type: Date, default: Date.now },
+  stats: {
+    totalInterviews: { type: Number, default: 0 },
+    totalCodingSubmissions: { type: Number, default: 0 },
+    averageScore: { type: Number, default: 0 },
+    currentStreak: { type: Number, default: 0 },
+    longestStreak: { type: Number, default: 0 }
   },
-  updatedAt: {
-    type: Date,
-    default: Date.now,
-  },
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now },
 })
 
-// NO PRE-SAVE HOOKS HERE - All password hashing happens in controllers
+// NO PRE-SAVE HOOKS - handle password hashing in controllers
 
 // Compare password method
 userSchema.methods.comparePassword = async function(password) {

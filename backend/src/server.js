@@ -14,6 +14,8 @@ const interviewRoutes = require('./routes/interview')
 const codingRoutes = require('./routes/coding')
 const feedbackRoutes = require('./routes/feedback')
 const userRoutes = require('./routes/user')
+const codeReviewRoutes = require('./routes/codeReview')
+const leaderboardRoutes = require('./routes/leaderboard')
 
 const app = express()
 
@@ -46,6 +48,8 @@ app.use('/api/interview', interviewRoutes)
 app.use('/api/coding', codingRoutes)
 app.use('/api/feedback', feedbackRoutes)
 app.use('/api/user', userRoutes)
+app.use('/api/code-review', codeReviewRoutes)
+app.use('/api/leaderboard', leaderboardRoutes)
 
 // ============ 404 HANDLER ============
 app.use((req, res) => {
