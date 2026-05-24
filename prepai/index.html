@@ -9,5 +9,29 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+    
+    <!-- Smooth scroll fix -->
+    <script>
+      (function() {
+        function scrollToSection(sectionId) {
+          const element = document.getElementById(sectionId);
+          if (element) {
+            const offset = 80;
+            const elementPosition = element.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - offset;
+            window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+            return true;
+          }
+          return false;
+        }
+
+        if (window.location.hash) {
+          setTimeout(function() {
+            const sectionId = window.location.hash.substring(1);
+            scrollToSection(sectionId);
+          }, 500);
+        }
+      })();
+    </script>
   </body>
 </html>
