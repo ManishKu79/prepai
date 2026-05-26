@@ -1,71 +1,232 @@
-# PrepAI
+<h1 align="center">🚀 PrepAI - The Ultimate Interview Preparation Platform</h1>
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![Node.js](https://img.shields.io/badge/Node.js-20.x-green.svg)](https://nodejs.org/)
-[![React](https://img.shields.io/badge/React-18.x-61dafb.svg)](https://reactjs.org/)
-[![MongoDB](https://img.shields.io/badge/MongoDB-7.x-47a248.svg)](https://mongodb.com/)
-[![Render](https://img.shields.io/badge/Render-Deployed-46e3b7.svg)](https://render.com)
-[![Vercel](https://img.shields.io/badge/Vercel-Deployed-000000.svg)](https://vercel.com)
+<p align="center">
+Crack your placement interviews with AI-powered mock interviews, resume analysis, and coding practice — all in one place.
+</p>
 
-**AI-Powered Interview Preparation Platform for Campus Placements**
+<p align="center">
+  <a href="https://prepration-platform.vercel.app">
+    <img src="https://img.shields.io/badge/Live_Demo-000000?style=for-the-badge&logo=vercel&logoColor=white" />
+  </a>
 
-[Live Demo](https://prepration-platform.vercel.app) · [API Health](https://prepration-platform-1.onrender.com/api/health) · [Report Bug](https://github.com/ManishKu79/prepration_Platform/issues)
+  <a href="https://prepration-platform-1.onrender.com">
+    <img src="https://img.shields.io/badge/Backend_API-46e3b7?style=for-the-badge&logo=render&logoColor=black" />
+  </a>
 
----
+  <a href="https://github.com/ManishKu79/prepration_Platform">
+    <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white" />
+  </a>
+</p>
 
-## 📖 About
-
-PrepAI helps students prepare for placement interviews through AI-powered mock interviews, resume analysis, and coding practice with real-time feedback.
-
-**Live URLs:**
-- Frontend: https://prepration-platform.vercel.app
-- Backend API: https://prepration-platform-1.onrender.com
-
----
-
-## ✨ Features
-
-| Category | Features |
-|----------|----------|
-| **AI Mock Interview** | Role-based questions, difficulty levels, 60s timer, instant feedback |
-| **Resume Analyzer** | PDF upload, ATS scoring, keyword extraction, suggestions |
-| **Coding Practice** | 50+ DSA problems, code editor, test cases, AI problem generator |
-| **Peer Code Review** | Share code, comments, likes, community feedback |
-| **Leaderboard** | Global rankings, performance tracking |
-| **Analytics Dashboard** | Progress charts, skill breakdown, activity feed |
+<p align="center">
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=28&duration=3000&pause=500&color=3B82F6&center=true&vCenter=true&width=900&lines=AI+Mock+Interviews;ATS+Resume+Analyzer;50%2B+Coding+Problems;Real-time+Feedback;Leaderboard+%26+Analytics" />
+</p>
 
 ---
 
-## 🛠 Tech Stack
+# 📌 Table of Contents
 
-**Frontend:** React 18, Vite, Tailwind CSS, Framer Motion, Zustand, Recharts
-
-**Backend:** Node.js, Express, MongoDB, JWT, OpenAI API, Nodemailer
-
-**Deployment:** Vercel (Frontend), Render (Backend), MongoDB Atlas
+- [✨ Key Features](#-key-features)
+- [🎯 Why PrepAI?](#-why-prepai)
+- [🛠 Tech Stack](#-tech-stack)
+- [🚀 Live Demo](#-live-demo)
+- [📸 Screenshots](#-screenshots)
+- [📦 Installation](#-installation)
+- [🔐 Environment Variables](#-environment-variables)
+- [📡 API Endpoints](#-api-endpoints)
+- [📁 Project Structure](#-project-structure)
+- [🤝 Contributing](#-contributing)
+- [📄 License](#-license)
+- [👨‍💻 Author](#-author)
 
 ---
 
-## 🚀 Quick Start
+# ✨ Key Features
 
-### Prerequisites
+<details>
+<summary><b>🤖 AI Mock Interview</b></summary>
+
+<br>
+
+- Role-based interviews: Frontend, Backend, Full Stack, HR
+- Difficulty levels: Beginner, Intermediate, Advanced
+- Choose question count: 3, 5, or 10 questions
+- 60-second timer per question
+- AI-generated questions using OpenAI GPT
+- Instant scoring with detailed feedback
+- Final performance analytics report
+
+</details>
+
+---
+
+<details>
+<summary><b>📄 Resume Analyzer</b></summary>
+
+<br>
+
+- Drag-and-drop PDF upload
+- ATS score calculation
+- Skills extraction & keyword analysis
+- Resume improvement suggestions
+- Resume optimization tips
+
+</details>
+
+---
+
+<details>
+<summary><b>💻 Coding Practice</b></summary>
+
+<br>
+
+- 50+ DSA problems
+- Categories: Arrays, Strings, DP, Graphs, etc.
+- Difficulty filters: Easy / Medium / Hard
+- Built-in code editor
+- AI Problem Generator using OpenAI
+- Submission history tracking
+
+</details>
+
+---
+
+<details>
+<summary><b>👥 Peer Code Review</b></summary>
+
+<br>
+
+- Share coding solutions
+- Community feedback system
+- Like/unlike functionality
+- Collaborative learning experience
+
+</details>
+
+---
+
+<details>
+<summary><b>🏆 Leaderboard</b></summary>
+
+<br>
+
+- Global ranking system
+- Performance-based scoring
+- Compare rank with others
+- Motivation through gamification
+
+</details>
+
+---
+
+<details>
+<summary><b>📊 Analytics Dashboard</b></summary>
+
+<br>
+
+- Real-time statistics
+- Weekly streak tracking
+- Interactive progress charts
+- Skill-wise performance analysis
+- Recent activity feed
+
+</details>
+
+---
+
+# 🎯 Why PrepAI?
+
+| Problem | PrepAI Solution |
+|---|---|
+| ❌ No real interview practice | ✅ AI mock interviews with instant feedback |
+| ❌ Resumes rejected by ATS | ✅ ATS score + keyword optimization |
+| ❌ Lack of coding practice | ✅ 50+ DSA problems + AI generator |
+| ❌ No peer feedback | ✅ Community review system |
+| ❌ Hard to track improvement | ✅ Analytics dashboard + leaderboard |
+
+---
+
+# 🛠 Tech Stack
+
+## Frontend
+- React 18
+- Vite
+- Tailwind CSS
+- Framer Motion
+- Zustand
+- Recharts
+- Lucide React
+
+## Backend
+- Node.js
+- Express.js
+- MongoDB
+- Mongoose
+- JWT Authentication
+- bcryptjs
+
+## AI / ML
+- OpenAI API (GPT)
+
+## Deployment
+- Vercel
+- Render
+- MongoDB Atlas
+
+## Tools
+- Git
+- GitHub
+- Postman
+- VS Code
+
+---
+
+# 🚀 Live Demo
+
+| Service | URL |
+|---|---|
+| Frontend | https://prepration-platform.vercel.app |
+| Backend API | https://prepration-platform-1.onrender.com |
+| Health Check | https://prepration-platform-1.onrender.com/api/health |
+
+---
+
+# 📸 Screenshots
+
+## Landing Page
+![Landing Page](https://via.placeholder.com/900x450?text=Landing+Page)
+
+## Dashboard
+![Dashboard](https://via.placeholder.com/900x450?text=Dashboard)
+
+## Mock Interview
+![Mock Interview](https://via.placeholder.com/900x450?text=Mock+Interview)
+
+## Resume Analyzer
+![Resume Analyzer](https://via.placeholder.com/900x450?text=Resume+Analyzer)
+
+## Coding Practice
+![Coding Practice](https://via.placeholder.com/900x450?text=Coding+Practice)
+
+## Leaderboard
+![Leaderboard](https://via.placeholder.com/900x450?text=Leaderboard)
+
+> Replace placeholder screenshots with actual project images.
+
+---
+
+# 📦 Installation
+
+## Prerequisites
+
 - Node.js 18+
-- MongoDB (local or Atlas)
-- OpenAI API key
+- MongoDB Atlas or Local MongoDB
+- OpenAI API Key
 
-### Installation
+---
+
+## Clone Repository
 
 ```bash
-# Clone repository
 git clone https://github.com/ManishKu79/prepration_Platform.git
 cd prepration_Platform
-
-# Backend
-cd backend
-npm install
-npm run dev
-
-# Frontend (new terminal)
-cd frontend
-npm install
-npm run dev
